@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>馬來西亞14天宣教之旅</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@600;700&family=Plus+Jakarta+Sans:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-page: #f6f5f2;
+      --bg-card: #ffffff;
+      --bg-bento: #f8f7f4;
+      --bg-callout: #fdf8f2;
+      --border-callout: #e09145;
+      --text-primary: #1c1e21;
+      --text-secondary: #4a5058;
+      --text-muted: #858c94;
+      --accent: #0f5c5c;
+      --accent-soft: rgba(15, 92, 92, 0.08);
+      --border-subtle: rgba(0, 0, 0, 0.06);
+      --shadow-elevated: 0 24px 48px -12px rgba(20, 25, 30, 0.07), 0 0 1px 1px rgba(0, 0, 0, 0.03);
+      --radius-lg: 24px;
+      --radius-md: 14px;
+      --transition: 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    [data-theme="dark"] {
+      --bg-page: #111315;
+      --bg-card: #191c1f;
+      --bg-bento: #212529;
+      --bg-callout: rgba(224, 145, 69, 0.08);
+      --border-callout: #d98a3c;
+      --text-primary: #eef0f2;
+      --text-secondary: #b0b7c0;
+      --text-muted: #707780;
+      --accent: #38b2ac;
+      --accent-soft: rgba(56, 178, 172, 0.12);
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --shadow-elevated: 0 24px 48px -12px rgba(0, 0, 0, 0.45), 0 0 1px 1px rgba(255, 255, 255, 0.06);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: "Noto Sans TC", -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg-page);
+      color: var(--text-primary);
+      line-height: 1.95;
+      letter-spacing: 0.03em;
+      padding: 48px 20px 80px;
+      transition: background-color var(--transition), color var(--transition);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* 頂部閱讀進度條 */
+    .progress-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 3px;
+      width: 0%;
+      background: linear-gradient(90deg, var(--accent), #e09145);
+      z-index: 100;
+      transition: width 0.1s ease-out;
+    }
+
+    /* 主容器 */
+    .container {
+      max-width: 760px;
+      margin: 0 auto;
+      animation: fadeUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+
+    /* 頂部工具列 */
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      padding: 0 4px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: "Plus Jakarta Sans", "Noto Sans TC", sans-serif;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      background: var(--accent-soft);
+      padding: 6px 14px;
+      border-radius: 999px;
+    }
+
+    .badge::before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background-color: var(--accent);
+    }
+
+    .theme-toggle {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-secondary);
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+      transition: transform 0.2s ease, background-color var(--transition);
+    }
+
+    .theme-toggle:hover {
+      transform: scale(1.06);
+    }
+
+    /* 文章主卡片 */
+    article {
+      background: var(--bg-card);
+      border-radius: var(--radius-lg);
+      padding: 56px 60px;
+      box-shadow: var(--shadow-elevated);
+      border: 1px solid var(--border-subtle);
+      transition: background-color var(--transition), border-color var(--transition);
+    }
+
+    /* 文章標頭 */
+    header {
+      margin-bottom: 36px;
+    }
+
+    h1 {
+      font-family: "Noto Serif TC", serif;
+      font-size: clamp(1.85rem, 4vw, 2.45rem);
+      font-weight: 700;
+      line-height: 1.35;
+      color: var(--text-primary);
+      margin-bottom: 14px;
+      letter-spacing: 0.02em;
+    }
+
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      font-size: 0.88rem;
+      color: var(--text-muted);
+    }
+
+    .meta span {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Bento 旅程數據摘要卡 */
+    .bento-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-bottom: 42px;
+    }
+
+    .bento-item {
+      background: var(--bg-bento);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 18px 20px;
+      transition: transform 0.25s ease, background-color var(--transition);
+    }
+
+    .bento-item:hover {
+      transform: translateY(-2px);
+    }
+
+    .bento-label {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+      display: block;
+    }
+
+    .bento-value {
+      font-family: "Plus Jakarta Sans", "Noto Serif TC", serif;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    .bento-desc {
+      font-size: 0.82rem;
+      color: var(--text-secondary);
+      margin-top: 2px;
+    }
+
+    /* 內文排版 */
+    .article-body p {
+      font-size: 1.06rem;
+      color: var(--text-secondary);
+      margin-bottom: 1.75em;
+      text-align: justify;
+    }
+
+    /* 首字下沉效果 */
+    .article-body p:first-of-type::first-letter {
+      font-family: "Noto Serif TC", serif;
+      font-size: 2.85rem;
+      font-weight: 700;
+      float: left;
+      line-height: 1;
+      margin: 4px 12px 0 0;
+      color: var(--accent);
+    }
+
+    /* 特別插曲視覺強調區塊 */
+    .story-callout {
+      background: var(--bg-callout);
+      border-left: 3.5px solid var(--border-callout);
+      border-radius: 0 var(--radius-md) var(--radius-md) 0;
+      padding: 24px 28px;
+      margin: 2.2em 0;
+      transition: background-color var(--transition);
+    }
+
+    .story-callout-tag {
+      display: inline-block;
+      font-size: 0.76rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      color: var(--border-callout);
+      margin-bottom: 8px;
+    }
+
+    .story-callout p {
+      margin-bottom: 0 !important;
+      color: var(--text-primary);
+    }
+
+    /* 結尾分隔與頁尾 */
+    .article-footer {
+      margin-top: 44px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border-subtle);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .back-top {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 500;
+      transition: opacity 0.2s;
+    }
+
+    .back-top:hover {
+      opacity: 0.75;
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(16px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* 響應式設計 */
+    @media (max-width: 680px) {
+      body {
+        padding: 24px 14px 56px;
+      }
+
+      article {
+        padding: 32px 24px;
+        border-radius: 20px;
+      }
+
+      .bento-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+
+      .article-body p {
+        font-size: 1rem;
+        text-align: left;
+      }
+
+      .story-callout {
+        padding: 20px 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="progress-bar" id="progressBar"></div>
+
+  <div class="container">
+    <div class="top-bar">
+      <span class="badge">Malaysia · 14 Days Journal</span>
+      <button class="theme-toggle" id="themeToggle" aria-label="切換深淺色模式" title="切換深淺色模式">🌙</button>
+    </div>
+
+    <article>
+      <header>
+        <h1>馬來西亞14天宣教之旅</h1>
+        <div class="meta">
+          <span>📍 馬來西亞</span>
+          <span>🎹 敬拜鋼琴伴奏</span>
+          <span>⏱ 閱讀時間約 3 分鐘</span>
+        </div>
+      </header>
+
+      <div class="bento-grid">
+        <div class="bento-item">
+          <span class="bento-label">旅程總長</span>
+          <div class="bento-value">14 Days</div>
+          <div class="bento-desc">首次跨國宣教與探索</div>
+        </div>
+        <div class="bento-item">
+          <span class="bento-label">核心服事</span>
+          <div class="bento-value">10 Days</div>
+          <div class="bento-desc">每日兩小時起跳伴奏</div>
+        </div>
+        <div class="bento-item">
+          <span class="bento-label">難忘學費</span>
+          <div class="bento-value">680 MYR</div>
+          <div class="bento-desc">異國防坑與成長記憶</div>
+        </div>
+      </div>
+
+      <div class="article-body">
+        <p>這個暑假，我和朋友一起去了馬來西亞宣教，一共待了14天。這次的旅程對我來說是一個非常特別的經驗，因為不只是單純出去玩，而是第一次和朋友一起到國外參與宣教活動。一開始出發之前，我其實非常期待，也有一點緊張，不知道到了當地之後會遇到什麼樣的人和事情。</p>
+
+        <p>在這次宣教活動中，我主要負責幫忙鋼琴伴奏。原本以為彈琴應該不會太累，但真正開始之後才發現完全不是這麼一回事。有時候一彈就是兩個小時起跳，而且不只是彈一次，還要一直配合大家的活動和敬拜。剛開始的幾天，我真的覺得非常累，手也很痠，身體也很疲憊，每次結束後都只想趕快休息。但是既然都已經來了，我也不想因為自己太累就放棄，所以只能告訴自己再撐一下。連續服事了大約10天之後，我慢慢習慣了這樣的生活，也發現自己其實比想像中更有耐力。雖然每天都很累，但是看到大家一起唱歌、敬拜，還是會覺得自己的付出很值得。</p>
+
+        <p>除了宣教之外，我們也有一些時間可以和朋友一起出去玩，體驗馬來西亞的風景和當地的生活。我們還一起去坐船，在船上的時候大家一邊聊天、一邊欣賞周圍的景色，氣氛非常輕鬆。經過前面10天比較忙碌的生活後，能夠有這樣的時間放鬆，真的讓我覺得非常開心，也留下很多好玩的回憶。</p>
+
+        <div class="story-callout">
+          <span class="story-callout-tag">💡 旅途插曲與反思</span>
+          <p>不過，這次旅行當然也不是每件事情都很順利。其中一件讓我們印象最深刻的事情，就是我們被當地人坑了680馬幣。當下知道被坑的時候，大家都非常傻眼，也覺得有點生氣，因為那不是一筆小錢。我們原本只是想好好體驗當地的活動，沒想到最後卻遇到這種情況。雖然當下心情不太好，但現在回想起來，這件事情反而變成我們這趟旅程中最難忘的回憶之一，也讓我們學到出國時一定要更加小心，遇到不熟悉的事情要先問清楚價格，不能太容易相信陌生人。</p>
+        </div>
+
+        <p>這14天的馬來西亞之旅，真的發生了很多事情，有辛苦、有疲累、有開心，也有一些讓人傻眼的意外。雖然宣教的前10天真的很累，但我也因此學會了堅持和負責任，並且更加體會到團隊合作的重要性。後面的遊玩時間則讓我和朋友留下很多美好的回憶。這趟旅程不只是一次出國旅行，更讓我有機會接觸不同的文化和生活方式，也讓我成長了不少。雖然680馬幣的事情到現在想起來還是有點心痛，但整體來說，我還是很珍惜這次經驗，也希望以後還有機會和朋友一起去不同的地方，看看更大的世界。</p>
+      </div>
+
+      <footer class="article-footer">
+        <span>夏日紀實 · 成長與團隊的印記</span>
+        <a href="#" class="back-top">回到頂部 ↑</a>
+      </footer>
+    </article>
+  </div>
+
+  <script>
+    // 閱讀進度條
+    window.addEventListener('scroll', () => {
+      const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+      const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      const progress = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
+      document.getElementById('progressBar').style.width = progress + '%';
+    });
+
+    // 深淺色模式切換
+    const toggleBtn = document.getElementById('themeToggle');
+    toggleBtn.addEventListener('click', () => {
+      const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+      document.documentElement.setAttribute('data-theme', isDark ? 'light' : 'dark');
+      toggleBtn.textContent = isDark ? '🌙' : '☀️';
+    });
+  </script>
+</body>
+</html>
